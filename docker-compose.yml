@@ -7,9 +7,9 @@ services:
     ports:
       - "10081:8080"
     volumes:
-      - ./api-reference/reference/sample.yaml:/usr/share/nginx/html/api_reference.yaml
+      - ./api-reference/reference:/usr/share/nginx/html/reference
     environment:
-      API_URL: api_reference.yaml
+      API_URL: reference/sample.yaml
 
   # API 仕様書に基づくモックサーバを起動
   api-mocking:
