@@ -1,0 +1,12 @@
+version: "3"
+services:
+  # API 仕様書をブラウザ上で閲覧する
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    ports:
+      - "10081:8080"
+    volumes:
+      - ./api-reference/reference/sample.yaml:/usr/share/nginx/html/api_reference.yaml
+    environment:
+      API_URL: api_reference.yaml
