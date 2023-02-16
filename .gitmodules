@@ -1,0 +1,3 @@
+[submodule "api-reference"]
+	path = api-reference
+	url = git@github.com:y-uchiida/stoplight-api-sample-back.git
