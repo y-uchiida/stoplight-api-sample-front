@@ -10,3 +10,13 @@ services:
       - ./api-reference/reference/sample.yaml:/usr/share/nginx/html/api_reference.yaml
     environment:
       API_URL: api_reference.yaml
+
+  # API 仕様書に基づくモックサーバを起動
+  api-mocking:
+    image: stoplight/prism:3
+    container_name: "api-mocking"
+    ports:
+      - "10082:4010"
+    command: mock -h 0.0.0.0 /reference/sample.yaml
+    volumes:
+      - ./api-reference/reference:/reference
