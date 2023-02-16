@@ -16,7 +16,7 @@ services:
     image: stoplight/prism:3
     container_name: "api-mocking"
     ports:
-      - "10082:4010"
+      - "3080:4010"
     command: mock -h 0.0.0.0 /reference/sample.yaml
     volumes:
       - ./api-reference/reference:/reference
