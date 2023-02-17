@@ -1,6 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import * as $axios from "@/lib/axiosUtils";
+import type { ReplacePathParameter } from "@/lib/schemaHelper";
 
 const fetchPosts = () => $axios.request({
   url: "/api/posts",
@@ -11,6 +12,14 @@ const fetchUsers = () => $axios.request({
   url: "/api/users",
   method: "get"
 });
+
+const fetchPostById = (postId: string) => {
+  const url = `/api/posts/${postId}` as '/api/posts/{postId}';
+  return $axios.request({
+    url,
+    method: "get",
+  });
+}
 
 type Post = {
   id: string;
@@ -37,6 +46,9 @@ function App() {
   useEffect(() => {
     fetchPosts().then(res => setPostList(res.data));
     fetchUsers().then(res => setUserList(res.data));
+
+    /* id で特定のデータを指定して取得する場合の例 */
+    fetchPostById('absd').then(res => console.log(res.data));
   }, []);
 
   return (
