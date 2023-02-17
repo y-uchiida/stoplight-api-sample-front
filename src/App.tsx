@@ -1,32 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import './App.css';
+import { useEffect, useState } from 'react';
+import * as $axios from "@/lib/axiosUtils";
+
+const fetchPosts = () => $axios.request({
+  url: "/api/posts",
+  method: "get",
+});
+
+const fetchUsers = () => $axios.request({
+  url: "/api/users",
+  method: "get"
+});
+
+type Post = {
+  id: string;
+  title: string;
+  content: string;
+  user_id: number;
+  created_at: string;
+};
+
+type User = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  dateOfBirth?: string | undefined;
+  emailVerified: boolean;
+  createDate?: string | undefined;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [PostList, setPostList] = useState<Post[]>([]);
+  const [UserList, setUserList] = useState<User[]>([]);
+
+  useEffect(() => {
+    fetchPosts().then(res => setPostList(res.data));
+    fetchUsers().then(res => setUserList(res.data));
+  }, []);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      <h1>Open API 仕様書を利用して型定義を生成するサンプル</h1>
+      <h2>投稿データリスト (GET /api/posts)</h2>
+      <ul>
+        {PostList.map(post => {
+          return (
+            <li key={post.id}>投稿タイトル: {post.title} (投稿ID: {post.id})</li>
+          );
+        })}
+      </ul>
+
+      <h2>ユーザーリスト (GET /api/users)</h2>
+      <ul>
+        {UserList.map(user => {
+          return (
+            <li key={user.id}>{user.firstName} {user.lastName} (email: {user.email})</li>
+          );
+        })}
+      </ul>
     </div>
   )
 }
