@@ -1,6 +1,12 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosInstance } from "axios";
 import * as schemaHelper from "@/lib/schemaHelper";
 import type { AxiosRequestConfig } from "axios";
+
+const client: AxiosInstance = axios.create({
+	baseURL: 'http://localhost:3080',
+	headers: { 'Content-Type': 'application/json' },
+	timeout: 5000, // milliseconds
+});
 
 export type AxiosConfigWrapper<
 	Path extends schemaHelper.UrlPaths,
@@ -27,7 +33,7 @@ export function request<
 		),
 	};
 
-	return axios.request<
+	return client.request<
 		schemaHelper.ResponseData<Path, Method>,
 		AxiosResponse<schemaHelper.ResponseData<Path, Method>>,
 		AxiosConfigWrapper<Path, Method>["data"]
